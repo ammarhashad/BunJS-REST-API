@@ -42,25 +42,6 @@ router.get("/my-tasks", AuthGuard, (req: UserRequest, res) => {
   }
 })
 
-router.get("/:id", AuthGuard, (req: UserRequest, res) => {
-  try {
-    console.log(req)
-    // get logged in user's id
-    const user = req.user as { id: string }
 
-    // Extract Task ID from params and find it
-    const task = Task.findById(req.params?.id as string)
-
-    // if task doesnt belong to user throw error
-    if (task?.user !== user.id) {
-      throw new Error("User is not authorized.")
-    }
-
-    // return task
-    return res.status(200).json({ task })
-  } catch (err) {
-    return res.status(500).send(err)
-  }
-})
 
 export default router
